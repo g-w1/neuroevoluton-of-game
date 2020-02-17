@@ -10,7 +10,6 @@ Two dynamic bodies:
 And some drawing code that extends the shape classes.
 kne
 """
-import random
 import pygame
 from pygame.locals import (QUIT, KEYDOWN, K_ESCAPE)
 
@@ -26,7 +25,7 @@ def keymovefunc(args):
             if event.key == pygame.K_RIGHT:
                 movement += 1
     return movement
-def test(func,godisp):
+def test(func,godisp,seed):
     startrun = 0
     from Box2D.b2 import (world, polygonShape, circleShape, staticBody, dynamicBody)
     if godisp:
@@ -67,7 +66,7 @@ def test(func,godisp):
     )
 
     # Create a couple dynamic bodies
-    body = world.CreateDynamicBody(position=(random.randint(10,30), random.randint(10,20)))
+    body = world.CreateDynamicBody(position=(seed[2], seed[3]))
     ball = body.CreateCircleFixture(radius=0.5, density=.2, friction=0,restitution=1)
 
     body = world.CreateDynamicBody(position=(15, 0), angle=0)
@@ -98,7 +97,7 @@ def test(func,godisp):
         circleShape.draw = my_draw_circle
 
     # --- main game loop ---
-    world.bodies[4].linearVelocity = (random.randint(-10,10),random.randint(-5,5))
+    world.bodies[4].linearVelocity = (seed[0],seed[1])
     running = True
     while running:
         startrun+=1

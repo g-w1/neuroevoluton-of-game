@@ -37,7 +37,7 @@ class Model:
     def return_mutated(self,n):
         mods = []
         for i in range(n-1):
-            mods.append(Model(self.hiddenlayersize,model = mutate_model(self.model)))
+            mods.append(Model(self.hiddenlayersize,mutate_model(self.model),show = self.show))
         mods.append(self)
         return mods
     def predictt(self,input):
@@ -50,8 +50,9 @@ class Model:
         input = input.reshape(1,5)
         out = self.model.predict(input)#do batches!!!!!!!!!!!
         return out
-    def run(self):
-        self.runcount = test(self.predictt,self.show)
+    def run(self,seed):
+        self.runcount = test(self.predictt,self.show,seed)
 if __name__ == "__main__":
+    from population import createSeed
     model = Model(10,False,show=  False)
-    model.run()
+    model.run(createSeed())
