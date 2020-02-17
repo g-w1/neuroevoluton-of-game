@@ -135,4 +135,5 @@ def test(func,godisp):
         pygame.quit()
     print(startrun)
     return startrun
-test(keymovefunc,True)
+if __name__ == "__main__":
+    test(keymovefunc,True)
