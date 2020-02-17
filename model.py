@@ -2,6 +2,7 @@ import random
 from copy import deepcopy
 import tensorflow.keras
 import numpy as np
+from game-environ import test
 def mutate(a):
     b =random.random()*np.random.standard_normal(a.shape)
     return b+a
@@ -22,6 +23,7 @@ def normalize(v):
 
 class Model:
     def __init__(self,hiddenlayersize,model = None):
+        self.hiddenlayersize = hiddenlayersize
         if not model:
             self.model = keras.models.Sequential([
                 keras.layers.Dense(5,input_shape=(5,), activation='tanh'),
@@ -31,7 +33,11 @@ class Model:
     def return_mutated(self,n):
         mods = []
         for i in range(n-1):
-            mods.append(mutate_model(self.model))
+            mods.append(Model(self.hiddenlayersize,model = mutate_model(self.model)))
         mods.append(self)
+        return mods
     def predict(self,input):
+        
         return model.predict(input)
+    def run(self):
+        self.runcount = test(self.predict,True)
