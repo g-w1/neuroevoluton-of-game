@@ -112,11 +112,10 @@ def test(func,godisp):
                 if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
                     
                     running = False
-        movement = func([world.bodies[5].position[0],world.bodies[4].linearVelocity,world.bodies[4].position])
+        # movement = func([world.bodies[5].position[0],world.bodies[4].linearVelocity,world.bodies[4].position])#comment this line if you want to be able to play
         pos = world.bodies[5].position
         print("movement",movement)
         world.bodies[5].position = (pos[0]+movement,pos[1])
-        print(pos[0]+movement)
         if godisp:
             screen.fill((0, 0, 0, 0))
         if world.bodies[4].position[1] <= 1.8:
