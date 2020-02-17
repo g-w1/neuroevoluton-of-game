@@ -24,14 +24,14 @@ def normalize(v):
     return v / norm
 
 class Model:
-    def __init__(self,hiddenlayersize,model):
+    def __init__(self,hiddenlayersize,model,show = True):
         self.hiddenlayersize = hiddenlayersize
+        self.show=  show
         if not model:
             self.model = keras.models.Sequential([
                 keras.layers.Dense(hiddenlayersize,input_shape=(5,), activation='tanh'),
                 keras.layers.Dense(1, activation='tanh')
         ])
-            self.model.summary()
         else:
             self.model = model
     def return_mutated(self,n):
@@ -51,6 +51,7 @@ class Model:
         out = self.model.predict(input)#do batches!!!!!!!!!!!
         return out
     def run(self):
-        self.runcount = test(self.predictt,True)
-model = Model(10,False)
-model.run()
+        self.runcount = test(self.predictt,self.show)
+if __name__ == "__main__":
+    model = Model(10,False,show=  False)
+    model.run()
