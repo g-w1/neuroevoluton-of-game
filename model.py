@@ -26,8 +26,7 @@ class Model:
         self.hiddenlayersize = hiddenlayersize
         if not model:
             self.model = keras.models.Sequential([
-                keras.layers.Dense(5,input_shape=(5,), activation='tanh'),
-                keras.layers.Dense(hiddenlayersize, activation='tanh'),
+                keras.layers.Dense(hiddenlayersize,input_shape=(5,), activation='tanh'),
                 keras.layers.Dense(1, activation='tanh')
         ])
     def return_mutated(self,n):
@@ -36,14 +35,16 @@ class Model:
             mods.append(Model(self.hiddenlayersize,model = mutate_model(self.model)))
         mods.append(self)
         return mods
-    def predict(self,input):
-        [world.bodies[5].position[0],world.bodies[4].linearVelocity,world.bodies[4].position]
-        input = np.array(input[0],input[1][0],input[1][1],input[2][0],input[2][1])
+    def predictt(self,input):
+        # print("called")
+        
+        input = np.array([input[0],input[1][0],input[1][1],input[2][0],input[2][1]])
         input = normalize(input)
-        out =  model.predict(input)
-        print(out)
+        print(input.shape)
+        out =  self.model.predict(input)
+        # print(out)
         return out
     def run(self):
-        self.runcount = test(self.predict,True)
+        self.runcount = test(self.predictt,True)
 model = Model(10)
 model.run()
