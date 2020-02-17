@@ -100,22 +100,20 @@ def test(func,godisp):
     while running:
         startrun+=1
         movement = 0
+        movement = func([world.bodies[5].position[0],world.bodies[4].linearVelocity,world.bodies[4].position])#
         # Check the event queue
         if godisp:    
             for event in pygame.event.get():
-                
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
                         movement -= 1
                     if event.key == pygame.K_RIGHT:
                         movement += 1
                 if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
-                    
                     running = False
-        # movement = func([world.bodies[5].position[0],world.bodies[4].linearVelocity,world.bodies[4].position])#comment this line if you want to be able to play
+        
         pos = world.bodies[5].position
-        print("movement",movement)
-        world.bodies[5].position = (pos[0]+movement,pos[1])
+        world.bodies[5].position = Box2D.b2Vec2(float(pos[0]+movement),pos[1])
         if godisp:
             screen.fill((0, 0, 0, 0))
         if world.bodies[4].position[1] <= 1.8:

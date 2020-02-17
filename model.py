@@ -44,13 +44,11 @@ class Model:
         """
         returns the output given an input
         """
-        # print("called")
-        
         input = np.array([input[0],input[1][0],input[1][1],input[2][0],input[2][1]])
         input = normalize(input)
-        print(input.shape)
-        out = self.model.predict(input)
-        print(out)
+        
+        input = input.reshape(1,5)
+        out = self.model.predict(input)#do batches!!!!!!!!!!!
         return out
     def run(self):
         self.runcount = test(self.predictt,True)
