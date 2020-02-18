@@ -6,15 +6,15 @@ import numpy as np
 from game_environ import test
 from statistics import median
 def yieldSeed():
-    for a in range(-2,3):
-        for b in range(-2,3):
-            for c in range(14,19):
+    for a in [x for x in range(-2,3) if x!=0]:
+        for b in range(-1,2):
+            for c in range(16,18):
                 yield [a*4,b,c,18]
 def createSeed():
     return [random.randint(-5,5),random.randint(-2,2),random.randint(14,18),random.randint(12,17)]
 
 def mutate(a):
-    if not random.randint(0,3):
+    if random.randint(0,4):
         b =random.random()*np.random.standard_normal(a.shape)
         return b+a
     else:
@@ -27,6 +27,7 @@ def normalize(v):
 
 class Model:
     def __init__(self,hiddenlayersize,model,show = True):
+        self.runcount = 77.0
         self.hiddenlayersize = hiddenlayersize
         self.show = show
         if not model:
@@ -55,7 +56,8 @@ class Model:
     def run(self,maxrun):
         all_runs = []
         for i in yieldSeed():
-            all_runs.append(test(self.predictt,self.show,i))
+            val = test(self.predictt,self.show,i)
+            all_runs.append(val)
         self.runcount = median(all_runs)
         if self.runcount>maxrun:
             jsonmodel = self.model.to_json()
@@ -78,5 +80,5 @@ if __name__ == "__main__":
     with open('model.json','r') as f:
         loadmodel = f.read()
     for _ in range(1):
-        model = Model(10,keras.models.model_from_json(loadmodel).load_weights('model.h5'),show=True)
+        model = Model(None,keras.models.model_from_json(loadmodel).load_weights('model.h5'),show=True)
         model.run(100)
