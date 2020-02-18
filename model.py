@@ -63,6 +63,6 @@ if __name__ == "__main__":
     from population import createSeed
     with open('model.json','r') as f:
         loadmodel = f.read()
-    
-    model = Model(10,keras.models.model_from_json(loadmodel).load_weights('model.h5'),show=True)
-    model.run(createSeed(),100)
+    for _ in range(10):
+        model = Model(10,keras.models.model_from_json(loadmodel).load_weights('model.h5'),show=True)
+        model.run(createSeed(),100)

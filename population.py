@@ -23,7 +23,7 @@ class Population(object):
         normfactor = sum([model.runcount for model in self.runpool])
         for i in range(len(self.runpool)):
             self.runpool[i].runcount = self.runpool[i].runcount / normfactor
-            self.runpool[i].runcount = round(self.runpool[i].runcount * 10 * self.number)
+            self.runpool[i].runcount = round(self.runpool[i].runcount * 5 * self.number)
         for model in self.runpool:
             for i in range(model.runcount):
                 self.genepool.append(model.copy_mutate())
@@ -32,7 +32,7 @@ class Population(object):
         random.shuffle(self.genepool)
         self.runpool = [self.genepool.pop(0) for _ in range(self.number)]
 if __name__ == "__main__":
-    pop = Population(30)
+    pop = Population(1000)
     for i in range(10):
         print('epoch',i)
         pop.runmodels()

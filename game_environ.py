@@ -34,7 +34,7 @@ def test(func,godisp,seed):
         TARGET_FPS = 60
         TIME_STEP = 1.0 / TARGET_FPS
     else:
-        TIME_STEP = 1.0 / 30
+        TIME_STEP = 1.0 / 60
     SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
 
     # --- pygame setup ---
