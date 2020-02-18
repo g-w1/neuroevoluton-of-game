@@ -34,7 +34,7 @@ def test(func,godisp,seed):
         TARGET_FPS = 60
         TIME_STEP = 1.0 / TARGET_FPS
     else:
-        TIME_STEP = 1.0 / 60
+        TIME_STEP = 1.0 / 30
     SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
 
     # --- pygame setup ---
@@ -132,6 +132,8 @@ def test(func,godisp,seed):
         if godisp:
             pygame.display.flip()
             clock.tick(TARGET_FPS)
+        if startrun>3000:
+            return startrun
     if godisp:
         pygame.quit()
     return startrun
