@@ -3,7 +3,7 @@ import random
 import math
 import numpy as np
 def createSeed():
-    return [random.randint(-10,10),random.randint(-5,5),random.randint(10,30),random.randint(10,20)]
+    return [random.randint(-5,5),random.randint(-2,2),random.randint(14,18),random.randint(12,17)]
 class Population(object):
     def __init__(self,number):
         self.number = number
@@ -13,7 +13,7 @@ class Population(object):
     def runmodels(self):
         seed = createSeed()
         for model in self.runpool:
-            count = model.run(seed,self.maxrun)
+            count = model.run(self.maxrun)
             if self.maxrun < count:
                 self.maxrun = count
     def addToGenepool(self):
@@ -32,7 +32,7 @@ class Population(object):
         random.shuffle(self.genepool)
         self.runpool = [self.genepool.pop(0) for _ in range(self.number)]
 if __name__ == "__main__":
-    pop = Population(1000)
+    pop = Population(100)
     for i in range(10):
         print('epoch',i)
         pop.runmodels()

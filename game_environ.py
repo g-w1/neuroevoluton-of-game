@@ -15,7 +15,8 @@ from pygame.locals import (QUIT, KEYDOWN, K_ESCAPE)
 
 import Box2D  # The main library
 # Box2D.b2 maps Box2D.b2Vec2 to vec2 (and so on)
-
+def chamgerange(i):
+    
 def keymovefunc(args):
     movement = 0
     for event in pygame.event.get():
@@ -132,7 +133,7 @@ def test(func,godisp,seed):
         if godisp:
             pygame.display.flip()
             clock.tick(TARGET_FPS)
-        if startrun>3000:
+        if startrun>5000:
             return startrun
     if godisp:
         pygame.quit()

@@ -1,12 +1,19 @@
+
 import random
 from copy import deepcopy
 import keras
 import numpy as np
 from game_environ import test
+from statistics import median
+def createSeed():
+    return [random.randint(-5,5),random.randint(-2,2),random.randint(14,18),random.randint(12,17)]
 
 def mutate(a):
-    b =random.random()*np.random.standard_normal(a.shape)
-    return b+a
+    if not random.randint(0,3):
+        b =random.random()*np.random.standard_normal(a.shape)
+        return b+a
+    else:
+        return a
 def normalize(v):
     norm = np.sum(v)
     if norm == 0:
@@ -40,14 +47,17 @@ class Model:
         input = input.reshape(1,5)
         out = self.model.predict(input)#do batches!!!!!!!!!!!
         return out
-    def run(self,seed,maxrun):
-        self.runcount = test(self.predictt,self.show,seed)
-        jsonmodel = self.model.to_json()
+    def run(self,maxrun):
+        all_runs = []
+        for i in range(50):
+            all_runs.append(test(self.predictt,self.show,createSeed()))
+        self.runcount = median(all_runs)
         if self.runcount>maxrun:
+            jsonmodel = self.model.to_json()
             with open('model.json','w') as f:
                 f.write(jsonmodel)
             self.model.save_weights('model.h5')
-            print(f'over {maxrun}')
+            print(f'over {maxrun}',self.runcount)
         return self.runcount
         
     def copy_mutate(self):
@@ -63,6 +73,6 @@ if __name__ == "__main__":
     from population import createSeed
     with open('model.json','r') as f:
         loadmodel = f.read()
-    for _ in range(10):
+    for _ in range(1):
         model = Model(10,keras.models.model_from_json(loadmodel).load_weights('model.h5'),show=True)
-        model.run(createSeed(),100)
+        model.run(100)
