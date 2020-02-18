@@ -30,7 +30,7 @@ class Population(object):
     def addToRunpool(self): 
         self.runpool = []
         random.shuffle(self.genepool)
-        self.runpool = [self.genepool.pop(0) for _ in range(self.number)]
+        self.runpool = self.genepool[:10]
 if __name__ == "__main__":
     pop = Population(100)
     for i in range(10):

@@ -68,8 +68,8 @@ def test(func,godisp,seed):
     body = world.CreateDynamicBody(position=(seed[2], seed[3]))
     ball = body.CreateCircleFixture(radius=0.5, density=.2, friction=0,restitution=1)
 
-    body = world.CreateDynamicBody(position=(15, 0), angle=0)
-    box = body.CreatePolygonFixture(box=(3, .4), density=1, friction=0.3)
+    body = world.CreateDynamicBody(position=(15.5, 0), angle=0)
+    slider = body.CreatePolygonFixture(box=(3, .4), density=1, friction=0.3)
 
     colors = {
         staticBody: (255, 255, 255, 255),

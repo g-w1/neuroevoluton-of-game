@@ -5,6 +5,11 @@ import keras
 import numpy as np
 from game_environ import test
 from statistics import median
+def yieldSeed():
+    for a in range(-2,3):
+        for b in range(-2,3):
+            for c in range(14,19):
+                yield [a*4,b,c,18]
 def createSeed():
     return [random.randint(-5,5),random.randint(-2,2),random.randint(14,18),random.randint(12,17)]
 
@@ -23,11 +28,11 @@ def normalize(v):
 class Model:
     def __init__(self,hiddenlayersize,model,show = True):
         self.hiddenlayersize = hiddenlayersize
-        self.show=  show
+        self.show = show
         if not model:
             self.model = keras.models.Sequential([
-                keras.layers.Dense(hiddenlayersize,input_shape=(5,), activation='tanh'),
-                keras.layers.Dense(1, activation='tanh')
+                keras.layers.Dense(hiddenlayersize,input_shape=(5,), activation='tanh',kernel_initializer='zeros',bias_initializer='zeros'),
+                keras.layers.Dense(1, activation='tanh',kernel_initializer='zeros',bias_initializer='zeros')
         ])
         else:
             self.model = model
@@ -49,8 +54,8 @@ class Model:
         return out
     def run(self,maxrun):
         all_runs = []
-        for i in range(50):
-            all_runs.append(test(self.predictt,self.show,createSeed()))
+        for i in yieldSeed():
+            all_runs.append(test(self.predictt,self.show,i))
         self.runcount = median(all_runs)
         if self.runcount>maxrun:
             jsonmodel = self.model.to_json()
@@ -68,7 +73,6 @@ class Model:
         model.set_weights([mutate(x) for x in deepcopy(self.model.get_weights())])
         modelc = Model(self.hiddenlayersize,model,show=False)
         return modelc
-
 if __name__ == "__main__":
     from population import createSeed
     with open('model.json','r') as f:
