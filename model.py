@@ -1,6 +1,6 @@
 import random
 from copy import deepcopy
-import tensorflow.keras as keras
+import keras
 import numpy as np
 from game_environ import test
 
@@ -8,15 +8,6 @@ from game_environ import test
 def mutate(a):
     b =random.random()*np.random.standard_normal(a.shape)
     return b+a
-def mutate_model(model):
-    if not random.randint(0,3):
-        w = model.get_weights()
-        w = np.asarray(w)
-        after = mutate(w)
-        model.set_weights(after)
-        return deepcopy(model)
-    else:
-        return deepcopy(model)
 def normalize(v):
     norm = np.sum(v)
     if norm == 0:
@@ -37,7 +28,7 @@ class Model:
     def return_mutated(self,n):
         mods = []
         for i in range(n-1):
-            mods.append(Model(self.hiddenlayersize,mutate_model(self.model),show = self.show))
+            mods.append(Model(self.hiddenlayersize,self.copy_mutate(),show = self.show))
         mods.append(self)
         return mods
     def predictt(self,input):
@@ -52,7 +43,21 @@ class Model:
         return out
     def run(self,seed):
         self.runcount = test(self.predictt,self.show,seed)
+        upplim = 3000
+        if self.runcount>upplim:
+            self.model.save_weights('model.h5')
+            print(f'over {upplim}')
+    def copy_mutate(self):
+        model = keras.models.Sequential([
+                keras.layers.Dense(self.hiddenlayersize,input_shape=(5,), activation='tanh'),
+                keras.layers.Dense(1, activation='tanh')
+        ])
+        model.set_weights([mutate(x) for x in deepcopy(self.model.get_weights())])
+        modelc = Model(self.hiddenlayersize,model,show=False)
+        return modelc
+
 if __name__ == "__main__":
     from population import createSeed
-    model = Model(10,False,show=  False)
+    model = Model(10,False,show=True)
+    model.model.load_weights('model.h5')
     model.run(createSeed())

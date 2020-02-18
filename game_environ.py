@@ -134,7 +134,7 @@ def test(func,godisp,seed):
             clock.tick(TARGET_FPS)
     if godisp:
         pygame.quit()
-    print(startrun)
     return startrun
 if __name__ == "__main__":
-    test(keymovefunc,True)
+    from population import createSeed
+    test(keymovefunc,True,createSeed())

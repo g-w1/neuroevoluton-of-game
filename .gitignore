@@ -2,3 +2,4 @@
 /__pycache__
 /venv
 .vscode/
+model.h5
