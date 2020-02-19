@@ -33,7 +33,7 @@ class Model:
         if not model:
             self.model = keras.models.Sequential([
                 keras.layers.Dense(hiddenlayersize,input_shape=(5,), activation='tanh',bias_initializer='zeros'),
-                keras.layers.Dense(1, activation='tanh',bias_initializer='zeros')
+                keras.layers.Dense(1, activation='sigmoid',bias_initializer='zeros')
         ])
         else:
             self.model = model
@@ -70,7 +70,7 @@ class Model:
     def copy_mutate(self):
         model = keras.models.Sequential([
                 keras.layers.Dense(self.hiddenlayersize,input_shape=(5,), activation='tanh'),
-                keras.layers.Dense(1, activation='tanh')
+                keras.layers.Dense(1, activation='sigmoid')
         ])
         model.set_weights([mutate(x) for x in deepcopy(self.model.get_weights())])
         modelc = Model(self.hiddenlayersize,model,show=False)

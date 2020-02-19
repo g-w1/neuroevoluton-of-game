@@ -101,7 +101,7 @@ def test(func,godisp,seed):
     while running:
         startrun+=1
         movement = 0
-        movement = func([world.bodies[5].position[0],world.bodies[4].linearVelocity,world.bodies[4].position])#
+        movement = func([world.bodies[5].position[0],world.bodies[4].linearVelocity,world.bodies[4].position])*28
         # Check the event queue
         if godisp:    
             for event in pygame.event.get():
@@ -114,7 +114,8 @@ def test(func,godisp,seed):
                     running = False
         
         pos = world.bodies[5].position
-        world.bodies[5].position = Box2D.b2Vec2(float(pos[0]+movement),pos[1])
+        # print(pos)
+        world.bodies[5].position = Box2D.b2Vec2(float(movement),pos[1])
         if godisp:
             screen.fill((0, 0, 0, 0))
         if world.bodies[4].position[1] <= 1.8:
@@ -137,5 +138,5 @@ def test(func,godisp,seed):
         pygame.quit()
     return startrun
 if __name__ == "__main__":
-    from population import createSeed
-    test(keymovefunc,True,createSeed())
+    from model import yieldSeed
+    # test(keymovefunc,True,list(yieldSeed())[0])

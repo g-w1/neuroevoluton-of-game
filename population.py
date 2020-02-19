@@ -2,10 +2,18 @@ from model import Model
 import random
 import math
 import numpy as np
+import keras
 class Population(object):
-    def __init__(self,number):
+    def __init__(self,number,model = None):
         self.number = number
-        self.runpool = [Model(random.randint(7,13),False,show=False) for _ in range(number)]
+        if not model:
+            self.runpool = [Model(random.randint(7,13),False,show=False) for _ in range(number)]
+        else:
+            with open('model.json','r') as f:
+                loadmodel = f.read()
+            self.runpool = [Model(random.randint(7,13),
+            keras.models.model_from_json(loadmodel).load_weights('model.h5'),show=False)
+            for _ in range(number)]
         self.genepool = []
         self.maxrun = 30
     def runmodels(self):
@@ -18,7 +26,7 @@ class Population(object):
     def addToGenepool(self):
         self.genepool = []
         for i in range(len(self.runpool)):
-            self.runpool[i].runcount = self.runpool[i].runcount**4
+            self.runpool[i].runcount = self.runpool[i].runcount**10
         normfactor = sum([model.runcount for model in self.runpool])
         for i in range(len(self.runpool)):
             self.runpool[i].runcount = self.runpool[i].runcount / normfactor
@@ -31,8 +39,8 @@ class Population(object):
         random.shuffle(self.genepool)
         self.runpool = self.genepool[:self.number]
 if __name__ == "__main__":
-    pop = Population(100)
-    for epoch in range(100):
+    pop = Population(100,model=True)
+    for epoch in range(10):
         print('epoch',epoch)
         print('adding to genepool')
         pop.addToGenepool()
