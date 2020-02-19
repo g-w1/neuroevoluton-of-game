@@ -9,9 +9,10 @@ class Population(object):
         if not model:
             self.runpool = [Model(random.randint(7,13),False,show=False) for _ in range(number)]
         else:
+            print('getting from saved')
             with open('model.json','r') as f:
                 loadmodel = f.read()
-            self.runpool = [Model(random.randint(7,13),
+            self.runpool = [Model(random.randint(5,15),
             keras.models.model_from_json(loadmodel).load_weights('model.h5'),show=False)
             for _ in range(number)]
         self.genepool = []
@@ -39,14 +40,14 @@ class Population(object):
         random.shuffle(self.genepool)
         self.runpool = self.genepool[:self.number]
 if __name__ == "__main__":
-    pop = Population(100,model=True)
-    for epoch in range(10):
+    pop = Population(50,model=True)
+    for epoch in range(50):
+        pop.runmodels()
+        print('max',pop.maxrun)
         print('epoch',epoch)
         print('adding to genepool')
         pop.addToGenepool()
         print('adding to runpool')
         pop.addToRunpool()
         print('running models')
-        pop.runmodels()
-        print('max',pop.maxrun)
     print(pop.maxrun)

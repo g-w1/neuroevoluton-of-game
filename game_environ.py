@@ -14,7 +14,6 @@ import pygame
 from pygame.locals import (QUIT, KEYDOWN, K_ESCAPE)
 
 import Box2D  # The main library
-# Box2D.b2 maps Box2D.b2Vec2 to vec2 (and so on)
 def keymovefunc(args):
     movement = 0
     for event in pygame.event.get():

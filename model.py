@@ -14,7 +14,7 @@ def createSeed():
     return [random.randint(-5,5),random.randint(-2,2),random.randint(14,18),random.randint(12,17)]
 
 def mutate(a):
-    if random.randint(0,4):
+    if random.randint(0,3):
         b =random.random()*np.random.standard_normal(a.shape)
         return b+a
     else:
@@ -30,9 +30,8 @@ class Model:
         self.runcount = 77.0
         self.hiddenlayersize = hiddenlayersize
         self.show = show
-        if not model:
+        if model == False:
             self.model = keras.models.Sequential([
-                keras.layers.Dense(hiddenlayersize,input_shape=(5,), activation='tanh',bias_initializer='zeros'),
                 keras.layers.Dense(1, activation='sigmoid',bias_initializer='zeros')
         ])
         else:
@@ -60,6 +59,7 @@ class Model:
             all_runs.append(val)
         self.runcount = median(all_runs)
         if self.runcount>maxrun:
+            print('saving to model.json and model.h5')
             jsonmodel = self.model.to_json()
             with open('model.json','w') as f:
                 f.write(jsonmodel)
@@ -69,7 +69,6 @@ class Model:
         
     def copy_mutate(self):
         model = keras.models.Sequential([
-                keras.layers.Dense(self.hiddenlayersize,input_shape=(5,), activation='tanh'),
                 keras.layers.Dense(1, activation='sigmoid')
         ])
         model.set_weights([mutate(x) for x in deepcopy(self.model.get_weights())])
@@ -80,4 +79,4 @@ if __name__ == "__main__":
         loadmodel = f.read()
     for _ in range(1):
         model = Model(10,keras.models.model_from_json(loadmodel).load_weights('model.h5'),show=True)
-        model.run(100)
+        model.run(100000000000000000000)
