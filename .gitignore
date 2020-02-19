@@ -4,3 +4,4 @@
 .vscode/
 model.h5
 *.json
+model.json

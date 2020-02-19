@@ -1,4 +1,4 @@
-tensorflow==2.0.0
+tensorflow
 keras
 pygame
 pyBox2D

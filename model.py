@@ -32,8 +32,8 @@ class Model:
         self.show = show
         if not model:
             self.model = keras.models.Sequential([
-                keras.layers.Dense(hiddenlayersize,input_shape=(5,), activation='tanh',kernel_initializer='zeros',bias_initializer='zeros'),
-                keras.layers.Dense(1, activation='tanh',kernel_initializer='zeros',bias_initializer='zeros')
+                keras.layers.Dense(hiddenlayersize,input_shape=(5,), activation='tanh',bias_initializer='zeros'),
+                keras.layers.Dense(1, activation='tanh',bias_initializer='zeros')
         ])
         else:
             self.model = model
@@ -76,9 +76,8 @@ class Model:
         modelc = Model(self.hiddenlayersize,model,show=False)
         return modelc
 if __name__ == "__main__":
-    from population import createSeed
     with open('model.json','r') as f:
         loadmodel = f.read()
     for _ in range(1):
-        model = Model(None,keras.models.model_from_json(loadmodel).load_weights('model.h5'),show=True)
+        model = Model(10,keras.models.model_from_json(loadmodel).load_weights('model.h5'),show=True)
         model.run(100)

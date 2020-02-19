@@ -2,8 +2,6 @@ from model import Model
 import random
 import math
 import numpy as np
-def createSeed():
-    return [random.randint(-5,5),random.randint(-2,2),random.randint(14,18),random.randint(12,17)]
 class Population(object):
     def __init__(self,number):
         self.number = number
@@ -11,7 +9,6 @@ class Population(object):
         self.genepool = []
         self.maxrun = 30
     def runmodels(self):
-        seed = createSeed()
         for model in range(len(self.runpool)):
             print(f"\n {model}th model \n")
             count = self.runpool[model].run(self.maxrun)
@@ -32,7 +29,7 @@ class Population(object):
     def addToRunpool(self):
         self.runpool = []
         random.shuffle(self.genepool)
-        self.runpool = self.genepool[:10]
+        self.runpool = self.genepool[:self.number]
 if __name__ == "__main__":
     pop = Population(100)
     for epoch in range(100):
@@ -43,4 +40,5 @@ if __name__ == "__main__":
         pop.addToRunpool()
         print('running models')
         pop.runmodels()
+        print('max',pop.maxrun)
     print(pop.maxrun)
